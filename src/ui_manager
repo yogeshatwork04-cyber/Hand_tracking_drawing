@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+
+class UIManager:
+    def __init__(self):
+        self.colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 255, 255)] # BGR
+        self.color_names = ["Blue", "Green", "Red", "Yellow"]
+        self.canvas = np.zeros((720, 1280, 3), np.uint8)
+
+    def draw_header(self, frame):
+        # Draw 4 color buttons and a clear button
+        for i, color in enumerate(self.colors):
+            cv2.rectangle(frame, (10 + i*240, 10), (230 + i*240, 100), color, -1)
+        
+        cv2.rectangle(frame, (970, 10), (1250, 100), (255, 255, 255), -1)
+        cv2.putText(frame, "CLEAR", (1050, 65), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 3)
+        return frame
+
+    def get_color(self, x):
+        if 10 < x < 230: return 0
+        elif 250 < x < 470: return 1
+        elif 490 < x < 710: return 2
+        elif 730 < x < 950: return 3
+        return None
+
+    def clear_canvas(self):
+        self.canvas = np.zeros((720, 1280, 3), np.uint8)
